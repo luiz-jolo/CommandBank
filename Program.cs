@@ -1,207 +1,340 @@
-﻿using System;
+﻿using CommandBank.Core;
+using CommandBank.Domain.Enum;
+using CommandBank.UI;
+using System;
 
 class Progam
 {
-    enum Screen
+    
+    static List<string> menuNames = new List<string>
     {
-        MainMenu,
-        SubMenu
-    }
+        "Menu 1",
+        "teste 2",
+        "teste 3"
+    };
 
-    static Screen currentScreen = Screen.MainMenu;
-
-    static int selectedIndex = 0;
-    static int subSelectedIndex = 0;
-
-    static string[] options = { "Iniciar", "Configurações", "Sair" };
-    static string[] subOptions = { "Escrever", "Voltar" };
-
-    static void Main()
+    static void Main(string[] args)
     {
-        Console.CursorVisible = false;
+        MenuController controller = new MenuController(menuNames, 0);
+        MainMenuRenderer render = new MainMenuRenderer();
 
         while (true)
         {
-            Render();
-
+            render.DrawMainMenu(menuNames, controller.selectedIndex);
             var key = Console.ReadKey(true).Key;
-
-            HandleInput(key);
+            controller.HandleInput(key);
         }
+
+        
+        //controller.ReadInput();
     }
 
-    static void Render()
-    {
-        Console.Clear();
+    //static ScreenEnum currentScreen = ScreenEnum.MainMenu;
 
-        switch (currentScreen)
-        {
-            case Screen.MainMenu:
-                DrawMainMenu();
-                break;
+    //static int selectedIndex = 0;
+    //static int subSelectedIndex = 0;
 
-            case Screen.SubMenu:
-                DrawSubMenu();
-                break;
-        }
-    }
+    //static string[] options = { "Login", "Configurações", "Sair" };
+    //static string[] subOptions = { "Escrever", "Voltar" };
 
-    static void HandleInput(ConsoleKey key)
-    {
-        if (currentScreen == Screen.MainMenu)
-        {
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    selectedIndex = (selectedIndex - 1 + options.Length) % options.Length;
-                    break;
+    //static void Main()
+    //{
+    //    Console.CursorVisible = false;
 
-                case ConsoleKey.DownArrow:
-                    selectedIndex = (selectedIndex + 1) % options.Length;
-                    break;
+    //    while (true)
+    //    {
+    //        Render();
 
-                case ConsoleKey.Enter:
-                    if (selectedIndex == 0) // Iniciar
-                    {
-                        currentScreen = Screen.SubMenu;
-                    }
-                    break;
-            }
-        }
-        else if (currentScreen == Screen.SubMenu)
-        {
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    subSelectedIndex = (subSelectedIndex - 1 + subOptions.Length) % subOptions.Length;
-                    break;
+    //        var key = Console.ReadKey(true).Key;
 
-                case ConsoleKey.DownArrow:
-                    subSelectedIndex = (subSelectedIndex + 1) % subOptions.Length;
-                    break;
+    //        HandleInput(key);
+    //    }
+    //}
 
-                case ConsoleKey.Enter:
-                    ExecuteSubMenu();
-                    break;
-            }
-        }
-    }
+    //static void Render()
+    //{
+    //    Console.Clear();
 
-    static void DrawMainMenu()
-    {
-        int width = 40;
-        int height = options.Length + 4;
+    //    switch (currentScreen)
+    //    {
+    //        case ScreenEnum.MainMenu:
+    //            DrawMainMenu();
+    //            break;
 
-        int startX = (Console.WindowWidth - width) / 2;
-        int startY = (Console.WindowHeight - height) / 2;
+    //        case ScreenEnum.SubMenu:
+    //            DrawSubMenu();
+    //            break;
+    //    }
+    //}
 
-        DrawBox(startX, startY, width, height);
+    //static void HandleInput(ConsoleKey key)
+    //{
+    //    if (currentScreen == ScreenEnum.MainMenu)
+    //    {
+    //        switch (key)
+    //        {
+    //            case ConsoleKey.UpArrow:
+    //                selectedIndex = (selectedIndex - 1 + options.Length) % options.Length;
+    //                break;
 
-        Console.SetCursorPosition(startX + 2, startY);
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write(" Sharp - Bank ");
-        Console.ResetColor();
+    //            case ConsoleKey.DownArrow:
+    //                selectedIndex = (selectedIndex + 1) % options.Length;
+    //                break;
 
-        for (int i = 0; i < options.Length; i++)
-        {
-            int posX = startX + 2;
-            int posY = startY + 2 + i;
+    //            case ConsoleKey.Enter:
+    //                if (selectedIndex == 0) // Iniciar
+    //                {
+    //                    currentScreen = ScreenEnum.SubMenu;
+    //                }
+    //                break;
+    //        }
+    //    }
+    //    else if (currentScreen == ScreenEnum.SubMenu)
+    //    {
+    //        switch (key)
+    //        {
+    //            case ConsoleKey.UpArrow:
+    //                subSelectedIndex = (subSelectedIndex - 1 + subOptions.Length) % subOptions.Length;
+    //                break;
 
-            Console.SetCursorPosition(posX, posY);
+    //            case ConsoleKey.DownArrow:
+    //                subSelectedIndex = (subSelectedIndex + 1) % subOptions.Length;
+    //                break;
 
-            if (i == selectedIndex)
-            {
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write($"> {options[i]}".PadRight(width - 4));
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write($"  {options[i]}");
-            }
+    //            case ConsoleKey.Enter:
+    //                ExecuteSubMenu();
+    //                break;
+    //        }
+    //    }
+    //}
 
-            Console.ResetColor();
-        }
-    }
+    //static void DrawMainMenu()
+    //{
+    //    int width = 40;
+    //    int height = options.Length + 4;
 
-    static void DrawSubMenu()
-    {
-        int width = Console.WindowWidth - 2;
-        int height = Console.WindowHeight - 2;
+    //    int startX = (Console.WindowWidth - width) / 2;
+    //    int startY = (Console.WindowHeight - height) / 2;
 
-        int startX = 0;
-        int startY = 0;
+    //    DrawBox(startX, startY, width, height);
 
-        DrawBox(startX, startY, width, height);
+    //    Console.SetCursorPosition(startX + 2, startY);
+    //    Console.ForegroundColor = ConsoleColor.Yellow;
+    //    Console.Write(" Sharp - Bank ");
+    //    Console.ResetColor();
 
-        Console.SetCursorPosition(2, 0);
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write(" INICIAR ");
-        Console.ResetColor();
+    //    for (int i = 0; i < options.Length; i++)
+    //    {
+    //        int posX = startX + 2;
+    //        int posY = startY + 2 + i;
 
-        for (int i = 0; i < subOptions.Length; i++)
-        {
-            int posX = 4;
-            int posY = 3 + i;
+    //        Console.SetCursorPosition(posX, posY);
 
-            Console.SetCursorPosition(posX, posY);
+    //        if (i == selectedIndex)
+    //        {
+    //            Console.BackgroundColor = ConsoleColor.White;
+    //            Console.ForegroundColor = ConsoleColor.Black;
+    //            Console.Write($"> {options[i]}".PadRight(width - 4));
+    //        }
+    //        else
+    //        {
+    //            Console.ForegroundColor = ConsoleColor.Gray;
+    //            Console.Write($"  {options[i]}");
+    //        }
 
-            if (i == subSelectedIndex)
-            {
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.Write($"> {subOptions[i]}".PadRight(30));
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.Write($"  {subOptions[i]}");
-            }
+    //        Console.ResetColor();
+    //    }
+    //}
 
-            Console.ResetColor();
-        }
-    }
+    //static void DrawSubMenu()
+    //{
+    //    int width = Console.WindowWidth - 2;
+    //    int height = Console.WindowHeight - 2;
 
-    static void ExecuteSubMenu()
-    {
-        if (subSelectedIndex == 0) // Escrever
-        {
-            Console.Clear();
+    //    int startX = 0;
+    //    int startY = 0;
 
-            DrawBox(0, 0, Console.WindowWidth - 2, Console.WindowHeight - 2);
+    //    DrawBox(startX, startY, width, height);
 
-            Console.SetCursorPosition(4, 4);
-            Console.Write("Executando ação...");
+    //    Console.SetCursorPosition(2, 0);
+    //    Console.ForegroundColor = ConsoleColor.Cyan;
+    //    Console.Write(" SubMenu ");
+    //    Console.ResetColor();
 
-            Console.SetCursorPosition(4, 6);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Texto exemplo sendo exibido no console.");
-            Console.ResetColor();
+    //    for (int i = 0; i < subOptions.Length; i++)
+    //    {
+    //        int posX = 4;
+    //        int posY = 3 + i;
 
-            Console.SetCursorPosition(4, 8);
-            Console.Write("Pressione qualquer tecla para voltar...");
-            Console.ReadKey(true);
-        }
-        else if (subSelectedIndex == 1) // Voltar
-        {
-            currentScreen = Screen.MainMenu;
-        }
-    }
+    //        Console.SetCursorPosition(posX, posY);
 
-    static void DrawBox(int x, int y, int width, int height)
-    {
-        Console.SetCursorPosition(x, y);
-        Console.Write("┌" + new string('─', width - 2) + "┐");
+    //        if (i == subSelectedIndex)
+    //        {
+    //            Console.BackgroundColor = ConsoleColor.White;
+    //            Console.ForegroundColor = ConsoleColor.Black;
+    //            Console.Write($"> {subOptions[i]}".PadRight(30));
+    //        }
+    //        else
+    //        {
+    //            Console.ForegroundColor = ConsoleColor.Gray;
+    //            Console.Write($"  {subOptions[i]}");
+    //        }
 
-        for (int i = 1; i < height - 1; i++)
-        {
-            Console.SetCursorPosition(x, y + i);
-            Console.Write("│" + new string(' ', width - 2) + "│");
-        }
+    //        Console.ResetColor();
+    //    }
+    //}
+
+    //static void DrawLoginMenu()
+    //{
+    //    while (true)
+    //    {
+    //        Console.Clear();
+
+    //        int width = Console.WindowWidth - 2;
+    //        int height = Console.WindowHeight - 2;
+
+    //        DrawBox(0, 0, width, height);
+
+    //        Console.SetCursorPosition(2, 0);
+    //        Console.ForegroundColor = ConsoleColor.Cyan;
+    //        Console.Write(" L O G I N ");
+    //        Console.ResetColor();
+
+    //        int labelX = 4;
+    //        int inputX = 25;
+
+    //        // --- INPUT CONTA ---
+    //        Console.SetCursorPosition(labelX, 3);
+    //        Console.Write("Número da conta:");
+
+    //        string accountInput = ReadInput(inputX, 3);
+
+    //        if (accountInput == "__ESC__")
+    //            currentScreen = ScreenEnum.MainMenu;
 
 
-        Console.SetCursorPosition(x, y + height - 1);
-        Console.Write("└" + new string('─', width - 2) + "┘");
-    }
+    //        if (!int.TryParse(accountInput, out int accountNumber))
+    //        {
+    //            ShowError("Conta inválida. Pressione qualquer tecla...");
+    //            Console.ReadKey(true);
+    //            continue;
+    //        }
+
+    //        // --- INPUT SENHA ---
+    //        Console.SetCursorPosition(labelX, 5);
+    //        Console.Write("Senha:");
+
+    //        string password = ReadInput(inputX, 5, true);
+
+    //        if (password == "__ESC__")
+    //            return;
+
+    //        // --- SIMULAÇÃO DE VALIDAÇÃO ---
+    //        if (accountNumber == 123 && password == "123")
+    //        {
+    //            ShowSuccess("Login realizado com sucesso!");
+    //            Console.ReadKey(true);
+    //            return;
+    //        }
+    //        else
+    //        {
+    //            ShowError("Credenciais inválidas!");
+    //            Console.ReadKey(true);
+    //        }
+    //    }
+    //}
+
+    //static string ReadInput(int x, int y, bool isPassword = false)
+    //{
+    //    Console.SetCursorPosition(x, y);
+
+    //    string input = "";
+
+    //    while (true)
+    //    {
+    //        var key = Console.ReadKey(true);
+
+    //        if (key.Key == ConsoleKey.Enter)
+    //            break;
+
+    //        if (key.Key == ConsoleKey.Escape)
+    //            return "__ESC__";
+
+    //        if (key.Key == ConsoleKey.Backspace && input.Length > 0)
+    //        {
+    //            input = input[..^1];
+
+    //            Console.SetCursorPosition(x + input.Length, y);
+    //            Console.Write(" ");
+    //            Console.SetCursorPosition(x + input.Length, y);
+    //        }
+    //        else if (!char.IsControl(key.KeyChar))
+    //        {
+    //            input += key.KeyChar;
+
+    //            Console.SetCursorPosition(x + input.Length - 1, y);
+    //            Console.Write(isPassword ? "*" : key.KeyChar);
+    //        }
+    //    }
+
+    //    return input;
+    //}
+
+    //static void ShowError(string message)
+    //{
+    //    Console.SetCursorPosition(4, Console.WindowHeight - 4);
+    //    Console.ForegroundColor = ConsoleColor.Red;
+    //    Console.Write(message.PadRight(Console.WindowWidth - 6));
+    //    Console.ResetColor();
+    //}
+
+    //static void ShowSuccess(string message)
+    //{
+    //    Console.SetCursorPosition(4, Console.WindowHeight - 4);
+    //    Console.ForegroundColor = ConsoleColor.Green;
+    //    Console.Write(message.PadRight(Console.WindowWidth - 6));
+    //    Console.ResetColor();
+    //}
+
+    //static void ExecuteSubMenu()
+    //{
+    //    if (subSelectedIndex == 0) // Escrever
+    //    {
+    //        Console.Clear();
+
+    //        DrawBox(0, 0, Console.WindowWidth - 2, Console.WindowHeight - 2);
+
+    //        Console.SetCursorPosition(4, 4);
+    //        Console.Write("Executando ação...");
+
+    //        Console.SetCursorPosition(4, 6);
+    //        Console.ForegroundColor = ConsoleColor.Green;
+    //        Console.Write("Texto exemplo sendo exibido no console.");
+    //        Console.ResetColor();
+
+    //        Console.SetCursorPosition(4, 8);
+    //        Console.Write("Pressione qualquer tecla para voltar...");
+    //        Console.ReadKey(true);
+    //    }
+    //    else if (subSelectedIndex == 1) // Voltar
+    //    {
+    //        currentScreen = ScreenEnum.MainMenu;
+    //    }
+    //}
+
+    //static void DrawBox(int x, int y, int width, int height)
+    //{
+    //    Console.SetCursorPosition(x, y);
+    //    Console.Write("┌" + new string('─', width - 2) + "┐");
+
+    //    for (int i = 1; i < height - 1; i++)
+    //    {
+    //        Console.SetCursorPosition(x, y + i);
+    //        Console.Write("│" + new string(' ', width - 2) + "│");
+    //    }
+
+
+    //    Console.SetCursorPosition(x, y + height - 1);
+    //    Console.Write("└" + new string('─', width - 2) + "┘");
+    //}
 }
