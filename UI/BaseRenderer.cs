@@ -9,7 +9,7 @@ namespace CommandBank.UI
     //desenha, borda, titulo e area da tela
     public class BaseRenderer
     {
-        public void DrawMenu()
+        public void DrawMenu(int index)
         {
             Console.Clear();
 
@@ -25,6 +25,7 @@ namespace CommandBank.UI
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write(" SubMenu ");
             Console.ResetColor();
+            Console.Write($"index selecionado: {index}   ");
 
             //for (int i = 0; i < subOptions.Length; i++)
             //{

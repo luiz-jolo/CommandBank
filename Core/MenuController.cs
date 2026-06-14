@@ -1,9 +1,4 @@
 ﻿using CommandBank.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandBank.Core
 {
@@ -62,8 +57,6 @@ namespace CommandBank.Core
             Console.SetCursorPosition(0, Console.WindowHeight - 1);
             Console.Write($"Tecla pressionada: {key}   ");
 
-            //if (currentScreen == ScreenEnum.MainMenu)
-            //{
             switch (key)
             {
                 case ConsoleKey.UpArrow:
@@ -78,28 +71,36 @@ namespace CommandBank.Core
 
                 case ConsoleKey.Enter:
                     BaseRenderer b = new BaseRenderer();
-                    b.DrawMenu();
-                 
+                    b.DrawMenu(selectedIndex);
+                    //ExecuteSubMenu();
                     break;
             }
-            //}
-            //else if (currentScreen == ScreenEnum.SubMenu)
-            //{
-            //    switch (key)
-            //    {
-            //        case ConsoleKey.UpArrow:
-            //            subSelectedIndex = (subSelectedIndex - 1 + subOptions.Length) % subOptions.Length;
-            //            break;
-
-            //        case ConsoleKey.DownArrow:
-            //            subSelectedIndex = (subSelectedIndex + 1) % subOptions.Length;
-            //            break;
-
-            //        case ConsoleKey.Enter:
-            //            ExecuteSubMenu();
-            //            break;
-            //    }
-            //}
         }
+        public int RetornaIndexSelecionado(ConsoleKey key)
+        {
+            
+            AtualizaIndexSelecionado(key);
+            
+            return selectedIndex;
+        }
+
+        public void AtualizaIndexSelecionado(ConsoleKey key)
+        {
+            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+            Console.Write($"Tecla pressionada: {key}   ");
+
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex - 1 + options.Count) % options.Count;
+                    break;
+
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex + 1) % options.Count;
+                    break;
+            }
+        }
+
+
     }
 }

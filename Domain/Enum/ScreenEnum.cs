@@ -8,7 +8,10 @@ namespace CommandBank.Domain.Enum
 {
     public enum ScreenEnum
     {
-        MainMenu,
-        SubMenu
+        Home,
+        Login,
+        TelaUm,
+        TelaDois,
+        Dashboard
     }
 }

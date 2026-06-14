@@ -8,10 +8,10 @@ namespace CommandBank.UI
 {
     public class MainMenuRenderer
     {
-        public void DrawMainMenu(List<string> options, int selectedIndex) {
+        public void DrawHomeMenu(List<string> options, int selectedIndex) {
             
             int width = 40;
-            int height = options.Count + 4;
+            int height = options.Count + options.Count;
 
             int startX = (Console.WindowWidth - width) / 2;
             int startY = (Console.WindowHeight - height) / 2;

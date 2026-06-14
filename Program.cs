@@ -1,31 +1,50 @@
 ﻿using CommandBank.Core;
 using CommandBank.Domain.Enum;
+using CommandBank.StateMachine;
 using CommandBank.UI;
 using System;
 
 class Progam
 {
     
-    static List<string> menuNames = new List<string>
-    {
-        "Menu 1",
-        "teste 2",
-        "teste 3"
-    };
-
     static void Main(string[] args)
     {
-        MenuController controller = new MenuController(menuNames, 0);
-        MainMenuRenderer render = new MainMenuRenderer();
+        //criando as telas em uma lista de string
+        List<string> options = Enum.GetNames(typeof(ScreenEnum)).ToList();
 
-        while (true)
+        MenuController controller = new MenuController(options, 0);
+        
+        MainMenuRenderer mainMenuRender = new MainMenuRenderer();
+
+        var State = new StateModel(); 
+        State.CurrentIndex = 0;
+
+        while(State.CurrentIndex == 0)
         {
-            render.DrawMainMenu(menuNames, controller.selectedIndex);
+            mainMenuRender.DrawHomeMenu(controller.options, controller.selectedIndex);
+
             var key = Console.ReadKey(true).Key;
-            controller.HandleInput(key);
+            var selectedIndex = controller.RetornaIndexSelecionado(key);
+            Console.Write($"index :: {selectedIndex}   ");
+            if(key == ConsoleKey.Enter)
+            {
+                State.CurrentIndex = selectedIndex;
+                var b = new BaseRenderer();
+                b.DrawMenu(selectedIndex);
+            }
+
+
+            //controller.HandleInput(key);
         }
 
-        
+        //while (State.CurrentStateIndex == 0)
+        //{
+        //    mainMenuRender.DrawHomeMenu(controller.options , controller.selectedIndex);
+        //    var key = Console.ReadKey(true).Key;
+        //    controller.HandleInput(key);
+        //}
+
+
         //controller.ReadInput();
     }
 
