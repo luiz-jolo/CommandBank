@@ -15,8 +15,5 @@ namespace CommandBank.Core
         MenuOption menuDois = new MenuOption("Menu 2", "Ação 2", "Menu Sair");
         MenuOption menuSair = new MenuOption("Menu Sair", "Ação 3", "Menu 1");
 
-
-
-
     }
 }

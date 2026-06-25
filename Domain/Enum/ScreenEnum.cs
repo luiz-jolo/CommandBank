@@ -12,6 +12,7 @@ namespace CommandBank.Domain.Enum
         Login,
         TelaUm,
         TelaDois,
-        Dashboard
+        Dashboard,
+        Sair
     }
 }

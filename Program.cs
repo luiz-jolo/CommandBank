@@ -12,40 +12,57 @@ class Progam
         //criando as telas em uma lista de string
         List<string> options = Enum.GetNames(typeof(ScreenEnum)).ToList();
 
+        //a primeira tela e opção do sistema é a home, não deve ser inserida na listagem
+        options.RemoveAt(0);
+
         MenuController controller = new MenuController(options, 0);
         
         MainMenuRenderer mainMenuRender = new MainMenuRenderer();
 
         var State = new StateModel(); 
-        State.CurrentIndex = 0;
+        State.CurrentScreen = ScreenEnum.Home;
 
-        while(State.CurrentIndex == 0)
+        while (State.CurrentScreen != ScreenEnum.Sair)
         {
-            mainMenuRender.DrawHomeMenu(controller.options, controller.selectedIndex);
-
-            var key = Console.ReadKey(true).Key;
-            var selectedIndex = controller.RetornaIndexSelecionado(key);
-            Console.Write($"index :: {selectedIndex}   ");
-            if(key == ConsoleKey.Enter)
+            if (State.CurrentScreen == ScreenEnum.Home)
             {
-                State.CurrentIndex = selectedIndex;
-                var b = new BaseRenderer();
-                b.DrawMenu(selectedIndex);
+                mainMenuRender.DrawHomeMenu(controller.options, controller.selectedIndex);
+
+                var key = Console.ReadKey(true).Key;
+                var selectedIndex = controller.RetornaIndexSelecionado(key);
+
+                if (key == ConsoleKey.Enter)
+                {
+                    State.CurrentScreen = (ScreenEnum)(selectedIndex + 1);
+                    Console.Clear();
+                }
             }
+            else
+            {
+                var b = new BaseRenderer();
+                b.DrawMenuScreen(State.CurrentScreen);
+                State.IsRunning = true;
+                while(State.IsRunning == true)
+                {
+                    var key = Console.ReadKey(true).Key;
+                    switch (key)
+                    {
+                        case ConsoleKey.UpArrow:
+                            Console.WriteLine("UP");
+                            break;
 
+                        case ConsoleKey.DownArrow:
+                            Console.WriteLine("Down");
+                            break;
 
-            //controller.HandleInput(key);
+                        case ConsoleKey.Enter:
+                            State.IsRunning = false;
+                            break;
+                    }
+                }
+                }
         }
 
-        //while (State.CurrentStateIndex == 0)
-        //{
-        //    mainMenuRender.DrawHomeMenu(controller.options , controller.selectedIndex);
-        //    var key = Console.ReadKey(true).Key;
-        //    controller.HandleInput(key);
-        //}
-
-
-        //controller.ReadInput();
     }
 
     //static ScreenEnum currentScreen = ScreenEnum.MainMenu;

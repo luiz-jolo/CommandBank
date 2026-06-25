@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommandBank.Domain.Enum;
 
 namespace CommandBank.UI
 {
     //desenha, borda, titulo e area da tela
     public class BaseRenderer
     {
-        public void DrawMenu(int index)
+        public void DrawMenuScreen(ScreenEnum screen)
         {
             Console.Clear();
 
@@ -25,29 +21,10 @@ namespace CommandBank.UI
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write(" SubMenu ");
             Console.ResetColor();
-            Console.Write($"index selecionado: {index}   ");
+            Console.Write($"index selecionado: {screen}   ");
 
-            //for (int i = 0; i < subOptions.Length; i++)
-            //{
-            //    int posX = 4;
-            //    int posY = 3 + i;
 
-            //    Console.SetCursorPosition(posX, posY);
 
-            //    if (i == subSelectedIndex)
-            //    {
-            //        Console.BackgroundColor = ConsoleColor.White;
-            //        Console.ForegroundColor = ConsoleColor.Black;
-            //        Console.Write($"> {subOptions[i]}".PadRight(30));
-            //    }
-            //    else
-            //    {
-            //        Console.ForegroundColor = ConsoleColor.Gray;
-            //        Console.Write($"  {subOptions[i]}");
-            //    }
-
-            //    Console.ResetColor();
-            //}
         }
 
         static void DrawBox(int x, int y, int width, int height)
@@ -60,7 +37,6 @@ namespace CommandBank.UI
                 Console.SetCursorPosition(x, y + i);
                 Console.Write("│" + new string(' ', width - 2) + "│");
             }
-
 
             Console.SetCursorPosition(x, y + height - 1);
             Console.Write("└" + new string('─', width - 2) + "┘");

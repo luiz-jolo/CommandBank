@@ -1,4 +1,5 @@
-﻿using CommandBank.UI;
+﻿using CommandBank.Domain.Enum;
+using CommandBank.UI;
 
 namespace CommandBank.Core
 {
@@ -71,7 +72,7 @@ namespace CommandBank.Core
 
                 case ConsoleKey.Enter:
                     BaseRenderer b = new BaseRenderer();
-                    b.DrawMenu(selectedIndex);
+                    b.DrawMenuScreen((ScreenEnum)(selectedIndex + 1));
                     //ExecuteSubMenu();
                     break;
             }

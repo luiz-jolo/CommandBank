@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandBank.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace CommandBank.StateMachine
 {
     public class StateModel
     {
-        public int CurrentIndex { get; set; }
-        public int TargetIndex { get; set; }
+        public ScreenEnum CurrentScreen { get; set; }
+        public bool IsRunning { get; set; }
     }
 }
