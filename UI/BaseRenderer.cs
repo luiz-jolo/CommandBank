@@ -5,7 +5,7 @@ namespace CommandBank.UI
     //desenha, borda, titulo e area da tela
     public class BaseRenderer
     {
-        public void DrawMenuScreen(ScreenEnum screen)
+        public void DrawLayoutScreen(ScreenEnum screen)
         {
             Console.Clear();
 
@@ -22,8 +22,6 @@ namespace CommandBank.UI
             Console.Write(" SubMenu ");
             Console.ResetColor();
             Console.Write($"index selecionado: {screen}   ");
-
-
 
         }
 

@@ -16,8 +16,8 @@ class Progam
         options.RemoveAt(0);
 
         MenuController controller = new MenuController(options, 0);
-        
         MainMenuRenderer mainMenuRender = new MainMenuRenderer();
+
 
         var State = new StateModel(); 
         State.CurrentScreen = ScreenEnum.Home;
@@ -40,8 +40,12 @@ class Progam
             else
             {
                 var b = new BaseRenderer();
-                b.DrawMenuScreen(State.CurrentScreen);
+                b.DrawLayoutScreen(State.CurrentScreen);
+
+
+
                 State.IsRunning = true;
+                //executar o que a tela faz
                 while(State.IsRunning == true)
                 {
                     var key = Console.ReadKey(true).Key;

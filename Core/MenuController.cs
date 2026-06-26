@@ -72,7 +72,7 @@ namespace CommandBank.Core
 
                 case ConsoleKey.Enter:
                     BaseRenderer b = new BaseRenderer();
-                    b.DrawMenuScreen((ScreenEnum)(selectedIndex + 1));
+                    b.DrawLayoutScreen((ScreenEnum)(selectedIndex + 1));
                     //ExecuteSubMenu();
                     break;
             }
