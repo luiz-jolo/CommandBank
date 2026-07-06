@@ -1,5 +1,6 @@
 ﻿using CommandBank.Core;
 using CommandBank.Domain.Enum;
+using CommandBank.Domain.Screens;
 using CommandBank.StateMachine;
 using CommandBank.UI;
 using System;
@@ -42,11 +43,22 @@ class Progam
                 var b = new BaseRenderer();
                 b.DrawLayoutScreen(State.CurrentScreen);
 
-
-
                 State.IsRunning = true;
-                //executar o que a tela faz
-                while(State.IsRunning == true)
+                
+                if(State.CurrentScreen == ScreenEnum.Dashboard)
+                {
+                    var d = new DashboardScreen();
+                    d.StartScreen();
+                }
+
+                if (State.CurrentScreen == ScreenEnum.Login)
+                {
+                    var l = new LoginScreen();
+                    l.StartScreen();
+                }
+
+
+                while (State.IsRunning == true)
                 {
                     var key = Console.ReadKey(true).Key;
                     switch (key)
@@ -224,65 +236,6 @@ class Progam
     //    }
     //}
 
-    //static void DrawLoginMenu()
-    //{
-    //    while (true)
-    //    {
-    //        Console.Clear();
-
-    //        int width = Console.WindowWidth - 2;
-    //        int height = Console.WindowHeight - 2;
-
-    //        DrawBox(0, 0, width, height);
-
-    //        Console.SetCursorPosition(2, 0);
-    //        Console.ForegroundColor = ConsoleColor.Cyan;
-    //        Console.Write(" L O G I N ");
-    //        Console.ResetColor();
-
-    //        int labelX = 4;
-    //        int inputX = 25;
-
-    //        // --- INPUT CONTA ---
-    //        Console.SetCursorPosition(labelX, 3);
-    //        Console.Write("Número da conta:");
-
-    //        string accountInput = ReadInput(inputX, 3);
-
-    //        if (accountInput == "__ESC__")
-    //            currentScreen = ScreenEnum.MainMenu;
-
-
-    //        if (!int.TryParse(accountInput, out int accountNumber))
-    //        {
-    //            ShowError("Conta inválida. Pressione qualquer tecla...");
-    //            Console.ReadKey(true);
-    //            continue;
-    //        }
-
-    //        // --- INPUT SENHA ---
-    //        Console.SetCursorPosition(labelX, 5);
-    //        Console.Write("Senha:");
-
-    //        string password = ReadInput(inputX, 5, true);
-
-    //        if (password == "__ESC__")
-    //            return;
-
-    //        // --- SIMULAÇÃO DE VALIDAÇÃO ---
-    //        if (accountNumber == 123 && password == "123")
-    //        {
-    //            ShowSuccess("Login realizado com sucesso!");
-    //            Console.ReadKey(true);
-    //            return;
-    //        }
-    //        else
-    //        {
-    //            ShowError("Credenciais inválidas!");
-    //            Console.ReadKey(true);
-    //        }
-    //    }
-    //}
 
     //static string ReadInput(int x, int y, bool isPassword = false)
     //{
@@ -320,21 +273,6 @@ class Progam
     //    return input;
     //}
 
-    //static void ShowError(string message)
-    //{
-    //    Console.SetCursorPosition(4, Console.WindowHeight - 4);
-    //    Console.ForegroundColor = ConsoleColor.Red;
-    //    Console.Write(message.PadRight(Console.WindowWidth - 6));
-    //    Console.ResetColor();
-    //}
-
-    //static void ShowSuccess(string message)
-    //{
-    //    Console.SetCursorPosition(4, Console.WindowHeight - 4);
-    //    Console.ForegroundColor = ConsoleColor.Green;
-    //    Console.Write(message.PadRight(Console.WindowWidth - 6));
-    //    Console.ResetColor();
-    //}
 
     //static void ExecuteSubMenu()
     //{
@@ -362,19 +300,4 @@ class Progam
     //    }
     //}
 
-    //static void DrawBox(int x, int y, int width, int height)
-    //{
-    //    Console.SetCursorPosition(x, y);
-    //    Console.Write("┌" + new string('─', width - 2) + "┐");
-
-    //    for (int i = 1; i < height - 1; i++)
-    //    {
-    //        Console.SetCursorPosition(x, y + i);
-    //        Console.Write("│" + new string(' ', width - 2) + "│");
-    //    }
-
-
-    //    Console.SetCursorPosition(x, y + height - 1);
-    //    Console.Write("└" + new string('─', width - 2) + "┘");
-    //}
 }

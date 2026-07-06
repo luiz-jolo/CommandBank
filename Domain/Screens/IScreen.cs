@@ -9,6 +9,6 @@ namespace CommandBank.Domain.Screens
 {
      public interface IScreen
     {
-        public void CreateScreen();
+        public void StartScreen();
     }
 }

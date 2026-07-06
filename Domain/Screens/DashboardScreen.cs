@@ -2,9 +2,12 @@
 {
     public class DashboardScreen : IScreen
     {
-        public void CreateScreen()
+        public void StartScreen()
         {
             Console.Write("teste dashboard Screen");
+
+
+
         }
     }
 }
